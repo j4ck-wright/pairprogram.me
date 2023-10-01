@@ -3,8 +3,7 @@ import { type ViteDevServer, defineConfig } from 'vite';
 
 import type { Server as HttpServer } from 'http';
 import { Server } from 'socket.io';
-import WebSocketHandler from './src/lib/server/WebSocketHandler';
-
+import { WebSocketHandler } from './src/lib';
 const webSocketServer = {
 	name: 'webSocketServer',
 	configureServer(server: ViteDevServer) {
