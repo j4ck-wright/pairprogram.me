@@ -12,12 +12,4 @@ export default function WebSocketHandler(io: Server) {
 			socket.join(id);
 		});
 	});
-
-	io.of('/').adapter.on('create-room', (room: string) => {
-		console.log(`room ${room} was created`);
-	});
-
-	io.of('/').adapter.on('join-room', (room: string, id: string) => {
-		console.log(`socket ${id} has joined room ${room}`);
-	});
 }
