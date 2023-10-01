@@ -7,10 +7,10 @@
 	socket.emit('join-room', data.slug);
 
 	socket.on('broadcast-room', (message) => {
-		console.log(message);
+		messages = [...messages, message];
 	});
 
-	$: messages = [];
+	let messages: string[] = [];
 </script>
 
 <h1>{data.slug}</h1>

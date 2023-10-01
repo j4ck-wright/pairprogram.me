@@ -1,35 +1,15 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { type ViteDevServer, defineConfig } from 'vite';
 
+import type { Server as HttpServer } from 'http';
 import { Server } from 'socket.io';
+import WebSocketHandler from './src/lib/server/WebSocketHandler';
 
 const webSocketServer = {
 	name: 'webSocketServer',
 	configureServer(server: ViteDevServer) {
 		if (!server.httpServer) return;
-
-		const io = new Server(server.httpServer);
-
-		io.on('connection', (socket) => {
-			socket.emit('eventFromServer', 'Hello, World 👋');
-
-			socket.on('broadcast-room', (data) => {
-				console.log(data);
-				io.to(data.roomId).emit('broadcast-room', data.message);
-			});
-
-			socket.on('join-room', (id: string) => {
-				socket.join(id);
-			});
-		});
-
-		io.of('/').adapter.on('create-room', (room) => {
-			console.log(`room ${room} was created`);
-		});
-
-		io.of('/').adapter.on('join-room', (room, id) => {
-			console.log(`socket ${id} has joined room ${room}`);
-		});
+		WebSocketHandler(new Server(server.httpServer as HttpServer));
 	}
 };
 
