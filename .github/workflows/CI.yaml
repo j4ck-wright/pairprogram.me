@@ -42,11 +42,31 @@ jobs:
           extensions: 'js,jsx,ts,tsx,svelte'
           annotations: true
 
-  build:
-    name: Build
-    runs-on: ubuntu-latest
+  test:
+      name: Unit Tests
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          node-version: [14.x, 16.x, 18.x]
+          # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
-    steps:
+      steps:
       - uses: actions/checkout@v3
-      - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: yarn
+      - run: yarn build
+      - run: yarn test
+
+
+    build:
+      name: Build
+      runs-on: ubuntu-latest
+
+      steps:
+        - uses: actions/checkout@v3
+        - name: Build the Docker image
+          run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
