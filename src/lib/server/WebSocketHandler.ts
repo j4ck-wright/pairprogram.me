@@ -8,7 +8,18 @@ export default function WebSocketHandler(io: Server) {
 			io.to(data.roomId).emit('broadcast-room', data.message);
 		});
 
-		socket.on('join-room', (id: string) => {
+		socket.on('client.room.exists', (id: string, callback) => {
+			const room = io.sockets.adapter.rooms.get(id);
+			callback({
+				roomExists: room ? true : false
+			});
+		});
+
+		socket.on('client.room.join', (id: string) => {
+			socket.join(id);
+		});
+
+		socket.on('client.create.room', (id: string) => {
 			socket.join(id);
 		});
 	});
