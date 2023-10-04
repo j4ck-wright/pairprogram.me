@@ -1,4 +1,4 @@
-# program.me
+# pairprogram.me
 
 Work in Progress - Synopsis to include at a later date
 
