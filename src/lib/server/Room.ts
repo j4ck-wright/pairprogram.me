@@ -1,5 +1,4 @@
 export class Room {
-	private readonly id: string;
 	private participants: string[];
 	private clockIntervalMinutes: number;
 	private clockStartEpoch?: number;
@@ -7,20 +6,11 @@ export class Room {
 	private currentNavigator?: string;
 	private clockState: 'Paused' | 'Running';
 
-	constructor(id: string) {
-		this.id = id;
+	constructor() {
 		this.participants = [];
 		this.clockIntervalMinutes = 10;
 		this.clockState = 'Paused';
 	}
-
-	/**
-	 * @returns room ID
-	 */
-	getId() {
-		return this.id;
-	}
-
 	/**
 	 * @returns Array of participants
 	 */
