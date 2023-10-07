@@ -12,7 +12,7 @@
 	$: light ? querySelector('light') : querySelector('dark');
 </script>
 
-<label class="swap swap-rotate">
+<label class="swap swap-rotate w-2 h-2 mr-4">
 	<input type="checkbox" checked on:click={() => (light = !light)} />
 
 	<svg class="swap-on fill-current w-10 h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
