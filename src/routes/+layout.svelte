@@ -1,6 +1,6 @@
 <script>
 	import '../app.css';
-	import ThemeToggle from '$components/ThemeToggle.svelte';
+	import { ThemeToggle } from '$lib/components';
 </script>
 
 <nav class="flex justify-between mx-4 mt-2 items-center pb-2 border-b-2 border-neutral mb-1">
