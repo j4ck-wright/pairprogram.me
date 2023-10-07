@@ -1,9 +1,9 @@
 export class Room {
 	private participants: string[];
 	private clockIntervalMinutes: number;
-	private clockStartEpoch?: number;
-	private currentDriver?: string;
-	private currentNavigator?: string;
+	private clockEndEpoch?: number;
+	private driver?: string;
+	private navigator?: string;
 	private clockState: 'Paused' | 'Running';
 
 	constructor() {
@@ -34,7 +34,7 @@ export class Room {
 	 * @returns Array of participants
 	 */
 	removeParticipant(name: string) {
-		this.participants.filter((participant) => {
+		this.participants = this.participants.filter((participant) => {
 			return participant !== name;
 		});
 		return this.participants;
@@ -64,24 +64,40 @@ export class Room {
 	 * The current driver from the list of participants
 	 * @returns Current driver
 	 */
-	getCurrentDriver() {
-		return this.currentDriver;
+	getDriver() {
+		return this.driver;
+	}
+
+	/**
+	 * Sets the current driver
+	 * @param participant the selected participant
+	 */
+	setDriver(participant: string) {
+		this.driver = participant;
 	}
 
 	/**
 	 * The current navigator from the list of participants
 	 * @returns Current navigator
 	 */
-	getCurrentNavigator() {
-		return this.currentNavigator;
+	getNavigator() {
+		return this.navigator;
+	}
+
+	/**
+	 * Sets the current navigator
+	 * @param participant the selected participant
+	 */
+	setNavigator(participant: string) {
+		this.navigator = participant;
 	}
 
 	/**
 	 * The start time from when the clock has started
 	 * @returns Epoch seconds of clock start time
 	 */
-	getClockStartTime() {
-		return this.clockStartEpoch;
+	getClockEndTime() {
+		return this.clockEndEpoch;
 	}
 
 	/**
@@ -89,9 +105,9 @@ export class Room {
 	 * @param epoch Epoch seconds
 	 * @returns Epoch seconds of clock start time
 	 */
-	setClockStartTime(epoch: number) {
-		this.clockStartEpoch = epoch;
-		return this.clockStartEpoch;
+	setClockEndTime(epoch: number) {
+		this.clockEndEpoch = epoch;
+		return this.clockEndEpoch;
 	}
 
 	/**
@@ -100,10 +116,10 @@ export class Room {
 	 * @returns Epoch seconds of clock start time
 	 */
 	addToClock(minutes: number) {
-		if (minutes > 0 && this.clockStartEpoch) {
-			this.clockStartEpoch += minutes * 60;
+		if (minutes > 0 && this.clockEndEpoch) {
+			this.clockEndEpoch += minutes * 60;
 		}
-		return this.clockStartEpoch;
+		return this.clockEndEpoch;
 	}
 
 	/**
@@ -112,10 +128,10 @@ export class Room {
 	 * @returns Epoch seconds of clock start time
 	 */
 	removeFromClock(minutes: number) {
-		if (minutes > 0 && this.clockStartEpoch) {
-			this.clockStartEpoch -= minutes * 60;
+		if (minutes > 0 && this.clockEndEpoch) {
+			this.clockEndEpoch -= minutes * 60;
 		}
-		return this.clockStartEpoch;
+		return this.clockEndEpoch;
 	}
 
 	/**
