@@ -1,3 +1,3 @@
-import TestComponent from './testComponent/TestComponent.svelte';
+import ThemeToggle from './ThemeToggle/ThemeToggle.svelte';
 
-export { TestComponent };
+export { ThemeToggle };
