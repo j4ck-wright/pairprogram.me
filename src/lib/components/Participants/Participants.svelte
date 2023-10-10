@@ -41,7 +41,7 @@
 			<!-- svelte-ignore a11y-autofocus -->
 			<input
 				autofocus
-				class="mr-2 outline-none"
+				class="mr-2 outline-none bg-transparent"
 				data-testid="participantInput"
 				type="text"
 				size="3"

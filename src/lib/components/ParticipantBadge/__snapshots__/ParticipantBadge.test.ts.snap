@@ -38,18 +38,18 @@ exports[`ParticipantBadge snapshot > Should match snapshot 1`] = `
         <div
           class="badge badge-lg badge-primary gap-2 text-inherit"
         >
+          <span
+            class="capitalize"
+          >
+            undefined
+          </span>
+           
           <iconify-icon
             class="cursor-pointer"
             icon="iconoir:cancel"
             role="button"
             tabindex="0"
           />
-           
-          <span
-            class="capitalize"
-          >
-            undefined
-          </span>
         </div>
       </div>,
       "skip_bound": false,
@@ -67,18 +67,18 @@ exports[`ParticipantBadge snapshot > Should match snapshot 1`] = `
       <div
         class="badge badge-lg badge-primary gap-2 text-inherit"
       >
+        <span
+          class="capitalize"
+        >
+          undefined
+        </span>
+         
         <iconify-icon
           class="cursor-pointer"
           icon="iconoir:cancel"
           role="button"
           tabindex="0"
         />
-         
-        <span
-          class="capitalize"
-        >
-          undefined
-        </span>
       </div>
     </div>
   </body>,
