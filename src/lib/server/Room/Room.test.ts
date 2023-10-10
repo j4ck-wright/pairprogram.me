@@ -1,4 +1,4 @@
-import { Room } from '../Room';
+import Room from './Room';
 
 describe('Room class test suite', () => {
 	const room = new Room();

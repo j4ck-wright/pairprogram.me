@@ -1,3 +1,4 @@
-import ThemeToggle from './ThemeToggle/ThemeToggle.svelte';
+import ParticipantBadge from './ParticipantBadge/ParticipantBadge.svelte';
+import Participants from './Participants/Participants.svelte';
 
-export { ThemeToggle };
+export { Participants, ParticipantBadge };

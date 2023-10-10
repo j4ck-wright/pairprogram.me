@@ -1,4 +1,4 @@
-export class Room {
+export default class Room {
 	private participants: string[];
 	private clockIntervalMinutes: number;
 	private clockEndEpoch?: number;

@@ -1,6 +1,7 @@
 <script lang="ts">
 	export let data;
 	import { io } from 'socket.io-client';
+	import { Participants } from '$lib/components';
 
 	const socket = io();
 
@@ -19,22 +20,13 @@
 	let messages: string[] = [];
 </script>
 
+<Participants />
+
+<!-- 
 {#if roomExists === undefined}
 	<p>loading...</p>
 {:else if roomExists == false}
 	<p>Not a valid room!</p>
 {:else}
-	<h1>{data.slug}</h1>
-	{#if roomExists}
-		<button
-			class="bg-slate-400"
-			on:click={() => socket.emit('broadcast-room', { roomId: data.slug, message: 'hello' })}
-			>Broadcast to room</button
-		>
-		{#each messages as message}
-			<h1>{message}</h1>
-		{/each}
-	{:else}
-		<p>Not a valid room!</p>
-	{/if}
-{/if}
+	<p>Page loaded</p>
+{/if} -->
