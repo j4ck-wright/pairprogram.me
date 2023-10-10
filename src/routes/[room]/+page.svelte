@@ -2,6 +2,7 @@
 	export let data;
 	import { io } from 'socket.io-client';
 	import { Participants } from '$lib/components';
+	import { Title } from '$lib/components';
 
 	const socket = io();
 
@@ -20,7 +21,13 @@
 	let messages: string[] = [];
 </script>
 
-<Participants />
+<div class="container mx-auto flex">
+	<div class="left w-1/2" />
+	<div class="right w-1/2 flex-col">
+		<Title title="Title" />
+		<Participants />
+	</div>
+</div>
 
 <!-- 
 {#if roomExists === undefined}
