@@ -14,6 +14,7 @@
 </script>
 
 <div class="badge badge-lg badge-primary gap-2 text-inherit">
+	<span class="capitalize">{participant}</span>
 	<iconify-icon
 		icon="iconoir:cancel"
 		role="button"
@@ -22,5 +23,4 @@
 		on:click={removeParticipant}
 		on:keydown={removeParticipant}
 	/>
-	<span class="capitalize">{participant}</span>
 </div>
