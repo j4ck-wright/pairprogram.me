@@ -1,6 +1,6 @@
 import { Server } from 'socket.io';
-//import { createAdapter } from '@socket.io/redis-adapter';
-//import { createClient } from 'redis';
+import { createAdapter } from '@socket.io/redis-adapter';
+import { createClient } from 'redis';
 import { createServer } from 'http';
 import { handler } from './build/handler.js';
 
@@ -18,21 +18,21 @@ const server = createServer(app);
 
 const io = new Server(server);
 
-// console.log('\x1b[33m%s\x1b[0m', '• Connecting to Redis server...');
-// const pubClient = createClient({
-// 	password: process.env.REDIS_CREDS,
-// 	socket: {
-// 		host: process.env.REDIS_HOST,
-// 		port: process.env.REDIS_PORT
-// 	}
-// });
+console.log('\x1b[33m%s\x1b[0m', '• Connecting to Redis server...');
+const pubClient = createClient({
+	password: process.env.REDIS_CREDS,
+	socket: {
+		host: process.env.REDIS_HOST,
+		port: process.env.REDIS_PORT
+	}
+});
 
-// const subClient = pubClient.duplicate();
+const subClient = pubClient.duplicate();
 
-// Promise.all([pubClient.connect(), subClient.connect()]).then(() => {
-// 	io.adapter(createAdapter(pubClient, subClient));
-// 	io.listen(4000);
-// });
+Promise.all([pubClient.connect(), subClient.connect()]).then(() => {
+	io.adapter(createAdapter(pubClient, subClient));
+	io.listen(4000);
+});
 
 WebSocketHandler(io);
 
