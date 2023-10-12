@@ -40,7 +40,7 @@ exports[`Participants snapshot > Should match snapshot 1`] = `
       "props": {},
       "root": <div>
         <div
-          class="container flex items-start gap-2"
+          class="container flex items-start gap-2 w-4/5"
         >
           <span
             class=""
@@ -49,7 +49,7 @@ exports[`Participants snapshot > Should match snapshot 1`] = `
           </span>
            
           <div
-            class="badges flex flex-wrap gap-1"
+            class="badges flex flex-wrap gap-2"
             data-testid="participantBadges"
           >
              
@@ -58,7 +58,7 @@ exports[`Participants snapshot > Should match snapshot 1`] = `
               data-testid="addParticipantBtn"
             >
               <iconify-icon
-                class="cursor-pointer text-primary false"
+                class="cursor-pointer text-primary false text-[24px]"
                 icon="ic:baseline-plus"
                 role="button"
                 tabindex="0"
@@ -81,7 +81,7 @@ exports[`Participants snapshot > Should match snapshot 1`] = `
   "container": <body>
     <div>
       <div
-        class="container flex items-start gap-2"
+        class="container flex items-start gap-2 w-4/5"
       >
         <span
           class=""
@@ -90,7 +90,7 @@ exports[`Participants snapshot > Should match snapshot 1`] = `
         </span>
          
         <div
-          class="badges flex flex-wrap gap-1"
+          class="badges flex flex-wrap gap-2"
           data-testid="participantBadges"
         >
            
@@ -99,7 +99,7 @@ exports[`Participants snapshot > Should match snapshot 1`] = `
             data-testid="addParticipantBtn"
           >
             <iconify-icon
-              class="cursor-pointer text-primary false"
+              class="cursor-pointer text-primary false text-[24px]"
               icon="ic:baseline-plus"
               role="button"
               tabindex="0"

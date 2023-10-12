@@ -17,9 +17,9 @@
 	}
 </script>
 
-<div class="container flex items-start gap-2">
+<div class="container flex items-start gap-2 w-4/5">
 	<span class="">Participants:</span>
-	<div class="badges flex flex-wrap gap-1" data-testid="participantBadges">
+	<div class="badges flex flex-wrap gap-2" data-testid="participantBadges">
 		{#each participants as participant}
 			<ParticipantBadge {participant} on:removeParticipant={removeParticipant} />
 		{/each}
@@ -33,7 +33,7 @@
 				icon={active ? 'mdi:pencil' : 'ic:baseline-plus'}
 				on:click={toggleActive}
 				on:keydown={toggleActive}
-				class="cursor-pointer text-primary {active && 'ml-1'}"
+				class="cursor-pointer text-primary {active && 'ml-1'} text-[24px]"
 			/>
 			{#if active}
 				<!-- svelte-ignore a11y-autofocus -->
