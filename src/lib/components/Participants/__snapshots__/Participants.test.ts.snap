@@ -40,7 +40,7 @@ exports[`Participants snapshot > Should match snapshot 1`] = `
       "props": {},
       "root": <div>
         <div
-          class="container flex gap-2 items-center"
+          class="container flex items-start gap-2"
         >
           <span
             class=""
@@ -49,21 +49,22 @@ exports[`Participants snapshot > Should match snapshot 1`] = `
           </span>
            
           <div
-            class="badges flex gap-1"
+            class="badges flex flex-wrap gap-1"
             data-testid="participantBadges"
-          />
-           
-          <div
-            class="bg-primary rounded-full outline outline-primary bg-transparent flex items-center"
-            data-testid="addParticipantBtn"
           >
-            <iconify-icon
-              class="cursor-pointer text-primary false"
-              icon="ic:baseline-plus"
-              role="button"
-              tabindex="0"
-            />
              
+            <div
+              class="bg-primary rounded-full outline outline-primary bg-transparent flex items-center"
+              data-testid="addParticipantBtn"
+            >
+              <iconify-icon
+                class="cursor-pointer text-primary false"
+                icon="ic:baseline-plus"
+                role="button"
+                tabindex="0"
+              />
+               
+            </div>
           </div>
         </div>
       </div>,
@@ -80,7 +81,7 @@ exports[`Participants snapshot > Should match snapshot 1`] = `
   "container": <body>
     <div>
       <div
-        class="container flex gap-2 items-center"
+        class="container flex items-start gap-2"
       >
         <span
           class=""
@@ -89,21 +90,22 @@ exports[`Participants snapshot > Should match snapshot 1`] = `
         </span>
          
         <div
-          class="badges flex gap-1"
+          class="badges flex flex-wrap gap-1"
           data-testid="participantBadges"
-        />
-         
-        <div
-          class="bg-primary rounded-full outline outline-primary bg-transparent flex items-center"
-          data-testid="addParticipantBtn"
         >
-          <iconify-icon
-            class="cursor-pointer text-primary false"
-            icon="ic:baseline-plus"
-            role="button"
-            tabindex="0"
-          />
            
+          <div
+            class="bg-primary rounded-full outline outline-primary bg-transparent flex items-center"
+            data-testid="addParticipantBtn"
+          >
+            <iconify-icon
+              class="cursor-pointer text-primary false"
+              icon="ic:baseline-plus"
+              role="button"
+              tabindex="0"
+            />
+             
+          </div>
         </div>
       </div>
     </div>
