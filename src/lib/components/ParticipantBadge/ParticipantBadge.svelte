@@ -14,7 +14,7 @@
 </script>
 
 <div class="badge badge-lg badge-primary gap-2 text-inherit">
-	<span class="capitalize">{participant}</span>
+	<span class="capitalize select-none">{participant}</span>
 	<iconify-icon
 		icon="iconoir:cancel"
 		role="button"
