@@ -39,7 +39,7 @@ exports[`ParticipantBadge snapshot > Should match snapshot 1`] = `
           class="badge badge-lg badge-primary gap-2 text-inherit"
         >
           <span
-            class="capitalize"
+            class="capitalize select-none"
           >
             undefined
           </span>
@@ -68,7 +68,7 @@ exports[`ParticipantBadge snapshot > Should match snapshot 1`] = `
         class="badge badge-lg badge-primary gap-2 text-inherit"
       >
         <span
-          class="capitalize"
+          class="capitalize select-none"
         >
           undefined
         </span>
