@@ -3,7 +3,7 @@
 
 	let percentage = 80;
 	let elapsed = 0;
-	let startTime = 15 * 60;
+	let startTime = 10 * 60;
 	let timer = tweened(startTime);
 	let timerIsRunning = false;
 
@@ -25,22 +25,16 @@
 	<div class="timer-container flex justify-end">
 		<div
 			class="radial-progress text-primary font-bold text-4xl"
-			style="--value:{percentage}; --size:20rem; --thickness: 0.5rem;"
+			style="--value:{percentage}; --size:21rem; --thickness: 0.5rem;"
 		>
 			{displayMinutes}:{displaySeconds}
 		</div>
 	</div>
 
-	<div class="buttons mt-6 flex justify-end gap-4">
-		<button>placeholder 1</button>
-		<button>placeholder 2</button>
-		<button>placeholder 3</button>
+	<div class="join mt-6 flex justify-end">
+		<button class="btn btn-primary join-item">Pause</button>
+		<button class="btn join-item">Skip</button>
+		<button class="btn join-item">Restart</button>
+		<button class="btn join-item">Shuffle</button>
 	</div>
 </div>
-
-<style>
-    :root {
-        --progress: bind:progress
-    }
-
-</style>
