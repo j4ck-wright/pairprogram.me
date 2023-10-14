@@ -1,20 +1,39 @@
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, set } from 'firebase/database';
+import { Database, getDatabase, onValue, ref, set } from 'firebase/database';
+import { writable } from 'svelte/store';
 
-import dotenv from 'dotenv';
-dotenv.config();
+export const roomTitle = writable<string>();
+export const participants = writable<string[]>();
+export const timerIntervalMinutes = writable<number>();
+export const timerEndEpoch = writable<number>();
+export const timerPaused = writable<boolean>();
+export const driver = writable<string>();
+export const navigator = writable<string>();
+export const epochLastActive = writable<number>();
+export const lastLog = writable<Record<string, string>>();
+let db: Database;
+let roomId: string;
 
-const firebaseConfig = {
-	apiKey: process.env.FIREBASE_API_KEY,
-	databaseURL: process.env.FIREBASE_URL
-};
-initializeApp(firebaseConfig);
-const db = getDatabase();
+export default class Firebase {
+	constructor(id: string) {
+		initializeApp({
+			databaseURL: 'https://pairprogramme-default-rtdb.europe-west1.firebasedatabase.app'
+		});
+		db = getDatabase();
+		roomId = id;
+	}
 
-// export const writeUserData = (userId, name, email, imageUrl) => {
-// 	set(ref(db, 'users/' + userId), {
-// 		participants: name,
-// 		email: email,
-// 		profile_picture: imageUrl
-// 	});
-// };
+	static setTitle(newTitle: string) {
+		roomTitle.set(newTitle);
+		set(ref(db, `/rooms/${roomId}`), {
+			title: newTitle
+		});
+	}
+
+	static watchTitle() {
+		const title = ref(db, `/rooms/${roomId}`);
+		onValue(title, (snapshot) => {
+			roomTitle.set(snapshot?.val()?.title || 'New Room');
+		});
+	}
+}
