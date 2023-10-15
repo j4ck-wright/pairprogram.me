@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let data;
 	import { initialiseApp } from '$lib/firebase.js';
-	import { Participants, Title, Timer, TimerEditor } from '$lib/components';
+	import { Participants, Title, Timer, TimerEditor, ActiveParticipants } from '$lib/components';
 
 	initialiseApp(data.slug);
 </script>
@@ -12,5 +12,8 @@
 		<Title />
 		<Participants />
 		<TimerEditor />
+		<div class="divider" />
+		<ActiveParticipants />
+		<div class="divider" />
 	</div>
 </div>
