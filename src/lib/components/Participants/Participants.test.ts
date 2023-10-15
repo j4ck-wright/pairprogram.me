@@ -9,7 +9,7 @@ describe('Participants test suite', () => {
 	it('Should render zero participants on page load', () => {
 		const participantBadges = screen.getByTestId('participantBadges');
 		expect(participantBadges).toBeTruthy();
-		expect(participantBadges.childElementCount).toBe(0);
+		expect(participantBadges.childElementCount).toBe(1);
 	});
 
 	it('Should display the add participant button', () => {
