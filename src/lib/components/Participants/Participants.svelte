@@ -1,26 +1,28 @@
 <script lang="ts">
+	import { setParticipants, watchParticipants, participantsStore } from '$lib/firebase';
 	import { ParticipantBadge } from '../';
 
-	let participants: string[] = [];
 	let newParticipant: string;
 	let active = false;
 
 	function removeParticipant(event: { detail: { participant: string } }) {
 		const removedParticipant = event.detail.participant;
-		const index = participants.indexOf(removedParticipant);
-		participants.splice(index, 1);
-		participants = participants;
+		const index = $participantsStore.indexOf(removedParticipant);
+		$participantsStore.splice(index, 1);
+		setParticipants($participantsStore);
 	}
 
 	function toggleActive() {
 		active = !active;
 	}
+
+	watchParticipants();
 </script>
 
 <div class="container flex items-start gap-2 w-4/5">
 	<span class="">Participants:</span>
 	<div class="badges flex flex-wrap gap-2" data-testid="participantBadges">
-		{#each participants as participant}
+		{#each $participantsStore as participant}
 			<ParticipantBadge {participant} on:removeParticipant={removeParticipant} />
 		{/each}
 		<div
@@ -46,7 +48,7 @@
 					bind:value={newParticipant}
 					on:keydown={(e) => {
 						if (e.key === 'Enter' && newParticipant && newParticipant.length > 0) {
-							participants = [...participants, newParticipant];
+							setParticipants([...$participantsStore, newParticipant]);
 							newParticipant = '';
 						}
 					}}

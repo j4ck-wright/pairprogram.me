@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { roomTitle, setTitle, watchTitle } from '$lib/firebase';
+	import { roomTitleStore, setTitle, watchTitle } from '$lib/firebase';
 
 	const MAX_CHARACTERS = 32;
-	let previousTitle = $roomTitle as string;
+	let previousTitle = $roomTitleStore as string;
 	let editHint = false;
 	let active = false;
 	let error = false;
@@ -13,8 +13,8 @@
 	}
 
 	function validTitle() {
-		if (!$roomTitle && !previousTitle) return true;
-		return $roomTitle.length > 0 && $roomTitle.length < MAX_CHARACTERS;
+		if (!$roomTitleStore && !previousTitle) return true;
+		return $roomTitleStore.length > 0 && $roomTitleStore.length < MAX_CHARACTERS;
 	}
 
 	watchTitle();
@@ -45,12 +45,12 @@
 			autofocus
 			class="pl-2 outline-primary bg-transparent"
 			size="12"
-			bind:value={$roomTitle}
+			bind:value={$roomTitleStore}
 			on:keydown={(e) => {
 				if (e.key === 'Enter' && validTitle()) {
 					active = false;
 					error = false;
-					previousTitle = $roomTitle;
+					previousTitle = $roomTitleStore;
 				} else if (!validTitle()) {
 					error = true;
 					errorMessage = `Title must be between 1-${MAX_CHARACTERS} letters`;
@@ -63,15 +63,15 @@
 				editHint = false;
 				error = false;
 				if (validTitle()) {
-					previousTitle = $roomTitle;
-					setTitle($roomTitle);
+					previousTitle = $roomTitleStore;
+					setTitle($roomTitleStore);
 				} else {
-					$roomTitle = previousTitle;
+					$roomTitleStore = previousTitle;
 				}
 			}}
 		/>
 	{:else}
-		{$roomTitle}
+		{$roomTitleStore}
 	{/if}
 	<iconify-icon
 		role="button"

@@ -3,14 +3,14 @@ import { Database, getDatabase, onValue, ref, set } from 'firebase/database';
 import { writable } from 'svelte/store';
 import { roomDefaults } from './roomDefaults';
 
-export const roomTitle = writable<string>(roomDefaults.roomTitle);
-export const participants = writable<string[]>(roomDefaults.participants);
-export const timerIntervalMinutes = writable<number>(roomDefaults.timerIntervalMinutes);
-export const timerEndEpoch = writable<number>(roomDefaults.timerEndEpoch);
-export const timerPaused = writable<boolean>(roomDefaults.timerPaused);
-export const driver = writable<string>(roomDefaults.driver);
-export const navigator = writable<string>(roomDefaults.navigator);
-export const epochLastActive = writable<number>(roomDefaults.epochLastActive);
+export const roomTitleStore = writable<string>(roomDefaults.roomTitle);
+export const participantsStore = writable<string[]>(roomDefaults.participants);
+export const timerIntervalMinutesStore = writable<number>(roomDefaults.timerIntervalMinutes);
+export const timerEndEpochStore = writable<number>(roomDefaults.timerEndEpoch);
+export const timerPausedStore = writable<boolean>(roomDefaults.timerPaused);
+export const driverStore = writable<string>(roomDefaults.driver);
+export const navigatorStore = writable<string>(roomDefaults.navigator);
+export const epochLastActiveStore = writable<number>(roomDefaults.epochLastActive);
 //export const lastLog = writable<Record<string, string>>();
 let db: Database;
 let roomId: string;
@@ -24,15 +24,25 @@ export function initialiseApp(id: string) {
 }
 
 export function setTitle(newTitle: string) {
-	roomTitle.set(newTitle);
-	set(ref(db, `/rooms/${roomId}`), {
-		title: newTitle
-	});
+	roomTitleStore.set(newTitle);
+	set(ref(db, `/rooms/${roomId}/title`), newTitle);
+}
+
+export function setParticipants(newParticipants: string[]) {
+	participantsStore.set(newParticipants);
+	set(ref(db, `/rooms/${roomId}/participants`), newParticipants);
 }
 
 export function watchTitle() {
-	const title = ref(db, `/rooms/${roomId}`);
+	const title = ref(db, `/rooms/${roomId}/title`);
 	onValue(title, (snapshot) => {
-		roomTitle.set(snapshot?.val()?.title || 'New Room');
+		roomTitleStore.set(snapshot.val() || 'New Room');
+	});
+}
+
+export function watchParticipants() {
+	const participants = ref(db, `/rooms/${roomId}/participants`);
+	onValue(participants, (snapshot) => {
+		participantsStore.set(snapshot.val() || ([] as string[]));
 	});
 }
