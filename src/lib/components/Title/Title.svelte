@@ -1,8 +1,8 @@
 <script lang="ts">
-	export let title: string;
+	import { roomTitle, setTitle, watchTitle } from '$lib/firebase';
 
 	const MAX_CHARACTERS = 32;
-	let previousTitle = title;
+	let previousTitle = $roomTitle as string;
 	let editHint = false;
 	let active = false;
 	let error = false;
@@ -13,8 +13,11 @@
 	}
 
 	function validTitle() {
-		return title.length > 0 && title.length < MAX_CHARACTERS;
+		if (!$roomTitle && !previousTitle) return true;
+		return $roomTitle.length > 0 && $roomTitle.length < MAX_CHARACTERS;
 	}
+
+	watchTitle();
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
@@ -42,17 +45,16 @@
 			autofocus
 			class="pl-2 outline-primary bg-transparent"
 			size="12"
-			bind:value={title}
+			bind:value={$roomTitle}
 			on:keydown={(e) => {
 				if (e.key === 'Enter' && validTitle()) {
 					active = false;
 					error = false;
-					previousTitle = title;
+					previousTitle = $roomTitle;
 				} else if (!validTitle()) {
 					error = true;
 					errorMessage = `Title must be between 1-${MAX_CHARACTERS} letters`;
 				} else {
-					console.log('here');
 					error = false;
 				}
 			}}
@@ -61,14 +63,15 @@
 				editHint = false;
 				error = false;
 				if (validTitle()) {
-					previousTitle = title;
+					previousTitle = $roomTitle;
+					setTitle($roomTitle);
 				} else {
-					title = previousTitle;
+					$roomTitle = previousTitle;
 				}
 			}}
 		/>
 	{:else}
-		{title}
+		{$roomTitle}
 	{/if}
 	<iconify-icon
 		role="button"
