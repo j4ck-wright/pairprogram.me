@@ -1,9 +1,7 @@
 <script lang="ts">
 	export let data;
 	import { io } from 'socket.io-client';
-	import { Participants } from '$lib/components';
-	import { Title } from '$lib/components';
-	import { TimerEditor } from '$lib/components';
+	import { Participants, Title, Timer, TimerEditor } from '$lib/components';
 
 	const socket = io();
 
@@ -22,8 +20,8 @@
 	let messages: string[] = [];
 </script>
 
-<div class="container mx-auto flex">
-	<div class="left w-1/2" />
+<div class="container mx-auto flex gap-12 mt-8">
+	<div class="left w-1/2"><Timer /></div>
 	<div class="right w-1/2 flex-col">
 		<Title title="Title" />
 		<Participants />
