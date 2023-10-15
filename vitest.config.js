@@ -1,10 +1,12 @@
-import { defineConfig } from 'vitest/config';
-import { svelte } from '@sveltejs/vite-plugin-svelte';
+import { sveltekit } from '@sveltejs/kit/vite';
 
-export default defineConfig({
-	plugins: [svelte({ hot: !process.env.VITEST })],
+/** @type {import('vite').UserConfig} */
+const config = {
+	plugins: [sveltekit()],
 	test: {
-		environment: 'jsdom',
-		globals: true
+		globals: true,
+		environment: 'jsdom'
 	}
-});
+};
+
+export default config;
