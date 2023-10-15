@@ -3,7 +3,7 @@
 	import { Participants } from '$lib/components';
 	import { Title } from '$lib/components';
 	import { TimerEditor } from '$lib/components';
-	import { initialiseApp } from '$lib/Firebase';
+	import { initialiseApp } from '$lib/firebase.js';
 
 	initialiseApp(data.slug);
 </script>

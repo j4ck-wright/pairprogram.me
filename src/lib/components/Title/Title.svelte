@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { roomTitle, setTitle, watchTitle } from '$lib/Firebase';
+	import { roomTitle, setTitle, watchTitle } from '$lib/firebase';
 
 	const MAX_CHARACTERS = 32;
 	let previousTitle = $roomTitle as string;
