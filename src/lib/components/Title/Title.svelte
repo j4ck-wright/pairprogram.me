@@ -1,6 +1,5 @@
 <script lang="ts">
-	import Firebase from '$lib/Firebase';
-	import { roomTitle } from '$lib/Firebase';
+	import { roomTitle, setTitle, watchTitle } from '$lib/Firebase';
 
 	const MAX_CHARACTERS = 32;
 	let previousTitle = $roomTitle as string;
@@ -18,7 +17,7 @@
 		return $roomTitle.length > 0 && $roomTitle.length < MAX_CHARACTERS;
 	}
 
-	Firebase.watchTitle();
+	watchTitle();
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
@@ -65,7 +64,7 @@
 				error = false;
 				if (validTitle()) {
 					previousTitle = $roomTitle;
-					Firebase.setTitle($roomTitle);
+					setTitle($roomTitle);
 				} else {
 					$roomTitle = previousTitle;
 				}

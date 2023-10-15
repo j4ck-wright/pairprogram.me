@@ -3,9 +3,9 @@
 	import { Participants } from '$lib/components';
 	import { Title } from '$lib/components';
 	import { TimerEditor } from '$lib/components';
-	import Firebase from '$lib/Firebase';
+	import { initialiseApp } from '$lib/Firebase';
 
-	const initialiseApp = new Firebase(data.slug);
+	initialiseApp(data.slug);
 </script>
 
 <div class="container mx-auto flex">
