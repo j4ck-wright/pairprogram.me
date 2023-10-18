@@ -33,6 +33,11 @@ export function setParticipants(newParticipants: string[]) {
 	set(ref(db, `/rooms/${roomId}/participants`), newParticipants);
 }
 
+export function setTimerIntervalMinutes(minutes: number) {
+	timerIntervalMinutesStore.set(minutes);
+	set(ref(db, `/rooms/${roomId}/timerInterval`), minutes);
+}
+
 export function watchTitle() {
 	const title = ref(db, `/rooms/${roomId}/title`);
 	onValue(title, (snapshot) => {
@@ -44,5 +49,12 @@ export function watchParticipants() {
 	const participants = ref(db, `/rooms/${roomId}/participants`);
 	onValue(participants, (snapshot) => {
 		participantsStore.set(snapshot.val() || ([] as string[]));
+	});
+}
+
+export function watchTimerIntervalMinutes() {
+	const intervalTimer = ref(db, `/rooms/${roomId}/timerInterval`);
+	onValue(intervalTimer, (snapshot) => {
+		timerIntervalMinutesStore.set(snapshot.val() || 10);
 	});
 }
