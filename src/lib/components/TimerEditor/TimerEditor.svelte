@@ -1,10 +1,30 @@
 <script lang="ts">
-	let timer = 10;
-	$: if (timer < 1) {
-		timer = 1;
-	} else if (timer > 100) {
-		timer = 100;
+	import {
+		watchTimerIntervalMinutes,
+		setTimerIntervalMinutes,
+		timerIntervalMinutesStore
+	} from '$lib/firebase';
+
+	const MAX_TIMER = 100;
+
+	function handleLocalTimerChange(newTime: number) {
+		if (newTime > 0 && newTime <= MAX_TIMER) {
+			setTimerIntervalMinutes(newTime);
+		} else {
+			const timerBox = document.getElementById('timerBox') as HTMLInputElement;
+			if (timerBox) {
+				timerBox.value = $timerIntervalMinutesStore.toString();
+			}
+		}
 	}
+
+	function newLocalTimer(e: FocusEvent) {
+		const target = e.target as HTMLInputElement;
+		const val = parseInt(target.value, 10);
+		handleLocalTimerChange(val);
+	}
+
+	watchTimerIntervalMinutes();
 </script>
 
 <div class="container mt-2">
@@ -13,19 +33,21 @@
 		<button
 			class="btn btn-xs no-animation btn-primary text-white join-item rounded-l-full"
 			on:click={() => {
-				timer--;
+				handleLocalTimerChange($timerIntervalMinutesStore - 1);
 			}}>-</button
 		>
 		<input
+			id="timerBox"
 			data-testid="timerBox"
 			type="number"
-			bind:value={timer}
+			value={$timerIntervalMinutesStore}
 			class=" w-12 bg-transparent join-item text-center outline-primary"
+			on:focusout={newLocalTimer}
 		/>
 		<button
 			class="btn btn-xs no-animation btn-primary text-white join-item rounded-r-full"
 			on:click={() => {
-				timer++;
+				handleLocalTimerChange($timerIntervalMinutesStore + 1);
 			}}>+</button
 		>
 	</div>
