@@ -1,20 +1,27 @@
 <script lang="ts">
-	import { watchTimerStatus, setTimerStatus, timerPausedStore } from '$lib/firebase';
+	import {
+		watchTimerStatus,
+		setTimerStatus,
+		timerPausedStore,
+		timerIntervalMinutesStore
+	} from '$lib/firebase';
 	import { tweened } from 'svelte/motion';
 
-	let percentage = 80;
+	let percentage: number;
 	let elapsed = 0;
-	let startTime = 10 * 60;
-	let timer = tweened(startTime);
+	let duration = $timerIntervalMinutesStore * 60;
+	let timer = tweened(duration);
 
 	setInterval(() => {
 		if ($timer > 0 && $timerPausedStore) {
 			$timer--;
 			elapsed++;
+		} else if ($timer === 0) {
+			setTimerStatus(false);
 		}
 	}, 1000);
 
-	$: percentage = 100 - (elapsed / startTime) * 100;
+	$: percentage = 100 - (elapsed / duration) * 100;
 	$: minutes = Math.floor($timer / 60);
 	$: seconds = Math.floor($timer - minutes * 60);
 	$: displayMinutes = minutes < 10 ? `0${minutes}` : minutes;
