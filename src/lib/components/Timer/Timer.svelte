@@ -1,33 +1,24 @@
-<script lang="ts">
-	import {
-		watchTimerStatus,
-		setTimerStatus,
-		timerPausedStore,
-		timerIntervalMinutesStore
-	} from '$lib/firebase';
+<script>
 	import { tweened } from 'svelte/motion';
 
-	let percentage: number;
+	let percentage = 80;
 	let elapsed = 0;
-	let duration = $timerIntervalMinutesStore * 60;
-	let timer = tweened(duration);
+	let startTime = 10 * 60;
+	let timer = tweened(startTime);
+	let timerIsRunning = false;
 
 	setInterval(() => {
-		if ($timer > 0 && $timerPausedStore) {
+		if ($timer > 0 && timerIsRunning) {
 			$timer--;
 			elapsed++;
-		} else if ($timer === 0) {
-			setTimerStatus(false);
 		}
 	}, 1000);
 
-	$: percentage = 100 - (elapsed / duration) * 100;
+	$: percentage = 100 - (elapsed / startTime) * 100;
 	$: minutes = Math.floor($timer / 60);
 	$: seconds = Math.floor($timer - minutes * 60);
 	$: displayMinutes = minutes < 10 ? `0${minutes}` : minutes;
 	$: displaySeconds = seconds < 10 ? `0${seconds}` : seconds;
-
-	watchTimerStatus();
 </script>
 
 <div class="container">
@@ -41,12 +32,7 @@
 	</div>
 
 	<div class="join mt-6 flex justify-end">
-		<button
-			class="btn btn-primary join-item"
-			on:click={() => {
-				setTimerStatus(!$timerPausedStore);
-			}}>{$timerPausedStore ? 'Pause' : 'Start'}</button
-		>
+		<button class="btn btn-primary join-item">Pause</button>
 		<button class="btn join-item">Skip</button>
 		<button class="btn join-item">Restart</button>
 		<button class="btn join-item">Shuffle</button>
