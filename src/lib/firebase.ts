@@ -62,14 +62,11 @@ export function setTimerIntervalMinutes(minutes: number) {
 	set(ref(db, `/rooms/${roomId}/timerInterval`), minutes);
 }
 
-<<<<<<< HEAD
 export function setPausedTimestamp(epoch: number) {
 	timerPausedEpochStore.set(epoch);
 	set(ref(db, `/rooms/${roomId}/timer/pausedTimestamp`), epoch);
 }
 
-=======
->>>>>>> main
 export function watchTitle() {
 	const title = ref(db, `/rooms/${roomId}/title`);
 	onValue(title, (snapshot) => {
@@ -128,7 +125,6 @@ export function watchRoundInProgress() {
 		}
 	});
 }
-<<<<<<< HEAD
 
 export function setRoundInProgress(status: boolean) {
 	roundInProgressStore.set(status);
@@ -148,5 +144,3 @@ export function watchTimerStatus() {
 		}
 	});
 }
-=======
->>>>>>> main
