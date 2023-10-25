@@ -6,6 +6,9 @@ module.exports = {
 		'plugin:svelte/recommended',
 		'prettier'
 	],
+	globals: {
+		NodeJS: true
+	},
 	parser: '@typescript-eslint/parser',
 	plugins: ['@typescript-eslint'],
 	parserOptions: {
