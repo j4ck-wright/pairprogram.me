@@ -78,6 +78,8 @@
 						timePercentage = 100;
 					}
 				}
+			} else {
+				time = `${$timerIntervalMinutesStore < 10 ? '0' : ''}${$timerIntervalMinutesStore}:00`;
 			}
 		}, 500);
 	});
