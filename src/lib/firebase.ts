@@ -1,12 +1,15 @@
 import { initializeApp } from 'firebase/app';
-import { Database, getDatabase, onValue, ref, set } from 'firebase/database';
+import { Database, getDatabase, onValue, ref, set, child, get } from 'firebase/database';
 import { writable } from 'svelte/store';
-import { roomDefaults } from './roomDefaults';
+import { roomDefaults, type Iroom } from './roomDefaults';
 
 export const roomTitleStore = writable<string>(roomDefaults.roomTitle);
 export const participantsStore = writable<string[]>(roomDefaults.participants);
 export const timerIntervalMinutesStore = writable<number>(roomDefaults.timerIntervalMinutes);
-export const timerEndEpochStore = writable<number>(roomDefaults.timerEndEpoch);
+export const timerPausedEpochStore = writable<number>(roomDefaults.timerEndEpoch);
+export const timerLastEpochStore = writable<number>(roomDefaults.timerLastEpoch);
+export const timerStartEpochStore = writable<number>(roomDefaults.timerStartEpoch);
+export const roundInProgressStore = writable<boolean>(roomDefaults.roundInProgress);
 export const timerPausedStore = writable<boolean>(roomDefaults.timerPaused);
 export const driverStore = writable<string>(roomDefaults.driver);
 export const navigatorStore = writable<string>(roomDefaults.navigator);
@@ -15,12 +18,33 @@ export const epochLastActiveStore = writable<number>(roomDefaults.epochLastActiv
 let db: Database;
 let roomId: string;
 
-export function initialiseApp(id: string) {
+export async function initialiseApp(id: string) {
 	initializeApp({
 		databaseURL: 'https://pairprogramme-default-rtdb.europe-west1.firebasedatabase.app'
 	});
 	db = getDatabase();
 	roomId = id;
+
+	const dataSnapshot = await get(child(ref(db), `/rooms/${roomId}`));
+	if (dataSnapshot.exists()) {
+		const data: Iroom = await dataSnapshot.val();
+
+		roundInProgressStore.set(data.inProgress);
+		timerIntervalMinutesStore.set(data.timerInterval);
+		timerPausedStore.set(data.timer.paused);
+
+		data.participants && participantsStore.set(data.participants);
+		data.driver && driverStore.set(data.driver);
+		data.navigator && navigatorStore.set(data.navigator);
+		data.timer.pausedTimestamp && timerPausedEpochStore.set(data.timer.pausedTimestamp);
+		data.timer.startEpoch && timerStartEpochStore.set(data.timer.startEpoch);
+		//epochLastActiveStore.set(data.epochLastActive);
+	} else {
+		setTitle(roomDefaults.roomTitle);
+		setRoundInProgress(roomDefaults.roundInProgress);
+		setTimerIntervalMinutes(roomDefaults.timerIntervalMinutes);
+		setTimerStatus(roomDefaults.timerPaused);
+	}
 }
 
 export function setTitle(newTitle: string) {
@@ -38,35 +62,85 @@ export function setTimerIntervalMinutes(minutes: number) {
 	set(ref(db, `/rooms/${roomId}/timerInterval`), minutes);
 }
 
-export function setTimerStatus(status: boolean) {
-	timerPausedStore.set(status);
-	set(ref(db, `/rooms/${roomId}/timerStatus`), status);
+export function setPausedTimestamp(epoch: number) {
+	timerPausedEpochStore.set(epoch);
+	set(ref(db, `/rooms/${roomId}/timer/pausedTimestamp`), epoch);
 }
 
 export function watchTitle() {
 	const title = ref(db, `/rooms/${roomId}/title`);
 	onValue(title, (snapshot) => {
-		roomTitleStore.set(snapshot.val() || 'New Room');
+		if (snapshot.val()) {
+			roomTitleStore.set(snapshot.val());
+		}
 	});
 }
 
 export function watchParticipants() {
 	const participants = ref(db, `/rooms/${roomId}/participants`);
 	onValue(participants, (snapshot) => {
-		participantsStore.set(snapshot.val() || ([] as string[]));
+		if (snapshot.val()) {
+			participantsStore.set(snapshot.val());
+		}
 	});
 }
 
 export function watchTimerIntervalMinutes() {
 	const intervalTimer = ref(db, `/rooms/${roomId}/timerInterval`);
 	onValue(intervalTimer, (snapshot) => {
-		timerIntervalMinutesStore.set(snapshot.val() || 10);
+		if (snapshot.val()) {
+			timerIntervalMinutesStore.set(snapshot.val());
+		}
 	});
 }
 
+export function watchStartEpoch() {
+	const startEpoch = ref(db, `/rooms/${roomId}/timer/startEpoch`);
+	onValue(startEpoch, (snapshot) => {
+		if (snapshot.val()) {
+			timerStartEpochStore.set(snapshot.val());
+		}
+	});
+}
+
+export function setStartEpoch(epoch: number) {
+	timerStartEpochStore.set(epoch);
+	set(ref(db, `/rooms/${roomId}/timer/startEpoch`), epoch);
+}
+
+export function watchPausedTimestamp() {
+	const lastEpoch = ref(db, `/rooms/${roomId}/timer/pausedTimestamp`);
+	onValue(lastEpoch, (snapshot) => {
+		if (snapshot.val()) {
+			timerPausedEpochStore.set(snapshot.val());
+		}
+	});
+}
+
+export function watchRoundInProgress() {
+	const inProgress = ref(db, `/rooms/${roomId}/inProgress`);
+	onValue(inProgress, (snapshot) => {
+		if (snapshot.val()) {
+			roundInProgressStore.set(snapshot.val());
+		}
+	});
+}
+
+export function setRoundInProgress(status: boolean) {
+	roundInProgressStore.set(status);
+	set(ref(db, `/rooms/${roomId}/inProgress`), status);
+}
+
+export function setTimerStatus(status: boolean) {
+	timerPausedStore.set(status);
+	set(ref(db, `/rooms/${roomId}/timer/paused`), status);
+}
+
 export function watchTimerStatus() {
-	const timerStatus = ref(db, `/rooms/${roomId}/timerStatus`);
+	const timerStatus = ref(db, `/rooms/${roomId}/timer/paused`);
 	onValue(timerStatus, (snapshot) => {
-		timerPausedStore.set(snapshot.val() || false);
+		if (snapshot) {
+			timerPausedStore.set(snapshot.val());
+		}
 	});
 }
