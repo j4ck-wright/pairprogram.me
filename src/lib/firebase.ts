@@ -38,6 +38,11 @@ export function setTimerIntervalMinutes(minutes: number) {
 	set(ref(db, `/rooms/${roomId}/timerInterval`), minutes);
 }
 
+export function setTimerStatus(status: boolean) {
+	timerPausedStore.set(status);
+	set(ref(db, `/rooms/${roomId}/timerStatus`), status);
+}
+
 export function watchTitle() {
 	const title = ref(db, `/rooms/${roomId}/title`);
 	onValue(title, (snapshot) => {
@@ -56,5 +61,12 @@ export function watchTimerIntervalMinutes() {
 	const intervalTimer = ref(db, `/rooms/${roomId}/timerInterval`);
 	onValue(intervalTimer, (snapshot) => {
 		timerIntervalMinutesStore.set(snapshot.val() || 10);
+	});
+}
+
+export function watchTimerStatus() {
+	const timerStatus = ref(db, `/rooms/${roomId}/timerStatus`);
+	onValue(timerStatus, (snapshot) => {
+		timerPausedStore.set(snapshot.val() || false);
 	});
 }
