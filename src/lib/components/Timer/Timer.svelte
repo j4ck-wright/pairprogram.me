@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <script lang="ts">
 	import {
 		watchTimerStatus,
@@ -40,9 +41,25 @@
 			return formatRemainingTime(remainingTime);
 		} else if ($roundInProgressStore === false) {
 			return `${$timerIntervalMinutesStore < 10 ? '0' : ''}${$timerIntervalMinutesStore}:00`;
+=======
+<script>
+	import { tweened } from 'svelte/motion';
+
+	let percentage = 80;
+	let elapsed = 0;
+	let startTime = 10 * 60;
+	let timer = tweened(startTime);
+	let timerIsRunning = false;
+
+	setInterval(() => {
+		if ($timer > 0 && timerIsRunning) {
+			$timer--;
+			elapsed++;
+>>>>>>> main
 		}
 	}
 
+<<<<<<< HEAD
 	function getTimePercentage() {
 		const secondsRemaining = formattedTimeToSeconds(time);
 		timePercentage = (secondsRemaining / ($timerIntervalMinutesStore * 60)) * 100;
@@ -90,6 +107,13 @@
 	watchTimerStatus();
 	watchPausedTimestamp();
 	watchRoundInProgress();
+=======
+	$: percentage = 100 - (elapsed / startTime) * 100;
+	$: minutes = Math.floor($timer / 60);
+	$: seconds = Math.floor($timer - minutes * 60);
+	$: displayMinutes = minutes < 10 ? `0${minutes}` : minutes;
+	$: displaySeconds = seconds < 10 ? `0${seconds}` : seconds;
+>>>>>>> main
 </script>
 
 <div class="container">
@@ -103,6 +127,7 @@
 	</div>
 
 	<div class="join mt-6 flex justify-end">
+<<<<<<< HEAD
 		<button
 			class="btn btn-primary join-item"
 			on:click={() => {
@@ -131,6 +156,10 @@
 			}}>{$timerPausedStore ? 'Start' : 'Pause'}</button
 		>
 		<button class="btn join-item">Next</button>
+=======
+		<button class="btn btn-primary join-item">Pause</button>
+		<button class="btn join-item">Skip</button>
+>>>>>>> main
 		<button class="btn join-item">Restart</button>
 		<button class="btn join-item">Shuffle</button>
 	</div>
