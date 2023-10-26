@@ -120,7 +120,7 @@ export function watchPausedTimestamp() {
 export function watchRoundInProgress() {
 	const inProgress = ref(db, `/rooms/${roomId}/inProgress`);
 	onValue(inProgress, (snapshot) => {
-		if (snapshot.val()) {
+		if (snapshot.val() !== undefined) {
 			roundInProgressStore.set(snapshot.val());
 		}
 	});
