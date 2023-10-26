@@ -5,17 +5,16 @@
 		timerIntervalMinutesStore,
 		roundInProgressStore
 	} from '$lib/firebase';
+	import { onMount } from 'svelte';
 
+	let timerBox: HTMLInputElement;
 	const MAX_TIMER = 100;
 
 	function handleLocalTimerChange(newTime: number) {
 		if (newTime > 0 && newTime <= MAX_TIMER) {
 			setTimerIntervalMinutes(newTime);
 		} else {
-			const timerBox = document.getElementById('timerBox') as HTMLInputElement;
-			if (timerBox) {
-				timerBox.value = $timerIntervalMinutesStore.toString();
-			}
+			timerBox.value = $timerIntervalMinutesStore.toString();
 		}
 	}
 
@@ -27,13 +26,14 @@
 
 	function newLocalKeyboardTimer(e: KeyboardEvent) {
 		if (e.key === 'Enter') {
-			const timerBox = document.getElementById('timerBox') as HTMLInputElement;
-			if (timerBox) {
-				handleLocalTimerChange(parseInt(timerBox.value));
-				timerBox.blur();
-			}
+			handleLocalTimerChange(parseInt(timerBox.value));
+			timerBox.blur();
 		}
 	}
+
+	onMount(() => {
+		timerBox = document.getElementById('timerBox') as HTMLInputElement;
+	});
 
 	watchTimerIntervalMinutes();
 </script>
@@ -59,6 +59,9 @@
 			class=" w-12 bg-transparent join-item text-center outline-primary"
 			on:focusout={newLocalTimer}
 			on:keydown={newLocalKeyboardTimer}
+			on:click={() => {
+				timerBox.select();
+			}}
 		/>
 		<button
 			disabled={$roundInProgressStore}
