@@ -2,7 +2,8 @@
 	import {
 		watchTimerIntervalMinutes,
 		setTimerIntervalMinutes,
-		timerIntervalMinutesStore
+		timerIntervalMinutesStore,
+		roundInProgressStore
 	} from '$lib/firebase';
 
 	const MAX_TIMER = 100;
@@ -24,6 +25,16 @@
 		handleLocalTimerChange(val);
 	}
 
+	function newLocalKeyboardTimer(e: KeyboardEvent) {
+		if (e.key === 'Enter') {
+			const timerBox = document.getElementById('timerBox') as HTMLInputElement;
+			if (timerBox) {
+				handleLocalTimerChange(parseInt(timerBox.value));
+				timerBox.blur();
+			}
+		}
+	}
+
 	watchTimerIntervalMinutes();
 </script>
 
@@ -31,21 +42,29 @@
 	<span class="mr-12">Timer:</span>
 	<div class="join">
 		<button
-			class="btn btn-xs no-animation btn-primary text-white join-item rounded-l-full"
+			disabled={$roundInProgressStore}
+			class="btn btn-xs no-animation text-white join-item rounded-l-full {$roundInProgressStore
+				? 'btn-ghost'
+				: 'btn-primary'}"
 			on:click={() => {
 				handleLocalTimerChange($timerIntervalMinutesStore - 1);
 			}}>-</button
 		>
 		<input
+			disabled={$roundInProgressStore}
 			id="timerBox"
 			data-testid="timerBox"
 			type="number"
 			value={$timerIntervalMinutesStore}
 			class=" w-12 bg-transparent join-item text-center outline-primary"
 			on:focusout={newLocalTimer}
+			on:keydown={newLocalKeyboardTimer}
 		/>
 		<button
-			class="btn btn-xs no-animation btn-primary text-white join-item rounded-r-full"
+			disabled={$roundInProgressStore}
+			class="btn btn-xs no-animation text-white join-item rounded-r-full {$roundInProgressStore
+				? 'btn-ghost'
+				: 'btn-primary'}"
 			on:click={() => {
 				handleLocalTimerChange($timerIntervalMinutesStore + 1);
 			}}>+</button
