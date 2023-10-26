@@ -53,7 +53,7 @@
 		const minutes = Math.floor(remainingTime / 60);
 		const seconds = Math.floor(remainingTime % 60);
 
-		return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+		return `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 	}
 
 	function formattedTimeToSeconds(formattedTime: string) {
@@ -81,7 +81,7 @@
 				timePercentage = 100;
 				time = `${$timerIntervalMinutesStore < 10 ? '0' : ''}${$timerIntervalMinutesStore}:00`;
 			}
-		}, 500);
+		}, 100);
 	});
 
 	onDestroy(() => {
