@@ -2,19 +2,19 @@
 	import {
 		watchTimerIntervalMinutes,
 		setTimerIntervalMinutes,
-		timerIntervalMinutesStore
+		timerIntervalMinutesStore,
+		roundInProgressStore
 	} from '$lib/firebase';
+	import { onMount } from 'svelte';
 
+	let timerBox: HTMLInputElement;
 	const MAX_TIMER = 100;
 
 	function handleLocalTimerChange(newTime: number) {
 		if (newTime > 0 && newTime <= MAX_TIMER) {
 			setTimerIntervalMinutes(newTime);
 		} else {
-			const timerBox = document.getElementById('timerBox') as HTMLInputElement;
-			if (timerBox) {
-				timerBox.value = $timerIntervalMinutesStore.toString();
-			}
+			timerBox.value = $timerIntervalMinutesStore.toString();
 		}
 	}
 
@@ -24,6 +24,17 @@
 		handleLocalTimerChange(val);
 	}
 
+	function newLocalKeyboardTimer(e: KeyboardEvent) {
+		if (e.key === 'Enter') {
+			handleLocalTimerChange(parseInt(timerBox.value));
+			timerBox.blur();
+		}
+	}
+
+	onMount(() => {
+		timerBox = document.getElementById('timerBox') as HTMLInputElement;
+	});
+
 	watchTimerIntervalMinutes();
 </script>
 
@@ -31,21 +42,32 @@
 	<span class="mr-12">Timer:</span>
 	<div class="join">
 		<button
-			class="btn btn-xs no-animation btn-primary text-white join-item rounded-l-full"
+			disabled={$roundInProgressStore}
+			class="btn btn-xs no-animation text-white join-item rounded-l-full {$roundInProgressStore
+				? 'btn-ghost'
+				: 'btn-primary'}"
 			on:click={() => {
 				handleLocalTimerChange($timerIntervalMinutesStore - 1);
 			}}>-</button
 		>
 		<input
+			disabled={$roundInProgressStore}
 			id="timerBox"
 			data-testid="timerBox"
 			type="number"
 			value={$timerIntervalMinutesStore}
 			class=" w-12 bg-transparent join-item text-center outline-primary"
 			on:focusout={newLocalTimer}
+			on:keydown={newLocalKeyboardTimer}
+			on:click={() => {
+				timerBox.select();
+			}}
 		/>
 		<button
-			class="btn btn-xs no-animation btn-primary text-white join-item rounded-r-full"
+			disabled={$roundInProgressStore}
+			class="btn btn-xs no-animation text-white join-item rounded-r-full {$roundInProgressStore
+				? 'btn-ghost'
+				: 'btn-primary'}"
 			on:click={() => {
 				handleLocalTimerChange($timerIntervalMinutesStore + 1);
 			}}>+</button
