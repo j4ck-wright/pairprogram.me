@@ -53,7 +53,7 @@
 		const minutes = Math.floor(remainingTime / 60);
 		const seconds = Math.floor(remainingTime % 60);
 
-		return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+		return `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 	}
 
 	function formattedTimeToSeconds(formattedTime: string) {
@@ -75,13 +75,13 @@
 					if (time === '00:00') {
 						setRoundInProgress(false);
 						setTimerStatus(true);
-						timePercentage = 100;
 					}
 				}
 			} else {
+				timePercentage = 100;
 				time = `${$timerIntervalMinutesStore < 10 ? '0' : ''}${$timerIntervalMinutesStore}:00`;
 			}
-		}, 500);
+		}, 100);
 	});
 
 	onDestroy(() => {
@@ -125,7 +125,6 @@
 				} else {
 					// set driver and navigator
 					// TODO ^
-					console.log('starting round');
 					setRoundInProgress(true);
 					setTimerStatus(false);
 					setStartEpoch(Date.now() / 1000);
