@@ -1,4 +1,4 @@
-import { shuffle } from './Shuffle';
+import { shuffle } from './shuffle';
 
 describe('Participants shuffle test suite', () => {
 	it('Correctly shuffle the participants', () => {
@@ -11,13 +11,13 @@ describe('Participants shuffle test suite', () => {
 	it('If length of participants is less or equal to 2, the original array is returned', () => {
 		const startParticipants = ['Jack', 'John'];
 		const shuffledParticipants = shuffle(startParticipants);
-		expect(shuffle).toHaveLength(startParticipants.length);
-		expect(shuffledParticipants[0]).toBe('Jack');
-		expect(shuffledParticipants[1]).toBe('John');
+		expect(shuffledParticipants).toHaveLength(startParticipants.length);
+		expect(shuffledParticipants![0]).toBe('Jack');
+		expect(shuffledParticipants![1]).toBe('John');
 
 		const oneParticipant = ['Jack'];
 		const shuffledOne = shuffle(oneParticipant);
 		expect(shuffledOne).toHaveLength(1);
-		expect(shuffledOne[0]).toBe('Jack');
+		expect(shuffledOne![0]).toBe('Jack');
 	});
 });
