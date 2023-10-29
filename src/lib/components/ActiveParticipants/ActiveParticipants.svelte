@@ -6,16 +6,15 @@
 
 <div class="driver">
 	<p>Driver:</p>
-	<p class="outline">{$driverStore || 'None'}</p>
+	<p class="outline lg:w-1/2">{$driverStore || 'None'}</p>
 </div>
 <div class="navigator mt-2">
 	<p>Navigator:</p>
-	<p class="outline">{$navigatorStore || 'None'}</p>
+	<p class="outline lg:w-1/2">{$navigatorStore || 'None'}</p>
 </div>
 
 <style>
 	.outline {
-		width: 50%;
 		outline: solid;
 		outline-width: 1px;
 		padding: 0.5rem;

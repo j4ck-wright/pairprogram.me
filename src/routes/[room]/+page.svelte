@@ -6,12 +6,15 @@
 	let firebaseData = initialiseApp(data.slug);
 </script>
 
-<div class="container mx-auto flex gap-12 mt-8">
+<div class="container mx-auto flex flex-col items-center gap-8 lg:flex-row mt-8">
 	{#await firebaseData}
-		<span class="loading loading-spinner loading-lg" />
+		<div class="loading-container flex flex-col m-auto mt-[15%]">
+			<span class="loading loading-spinner loading-lg m-auto" />
+			<p>Loading Room Data</p>
+		</div>
 	{:then}
-		<div class="left w-1/2"><Timer /></div>
-		<div class="right w-1/2 flex-col">
+		<div class="left lg:w-1/2"><Timer /></div>
+		<div class="right w-[94%] lg:w-1/2 flex-col">
 			<Title />
 			<Participants />
 			<TimerEditor />
