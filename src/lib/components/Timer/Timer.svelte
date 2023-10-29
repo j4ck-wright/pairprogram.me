@@ -70,6 +70,15 @@
 		return minutes * 60 + seconds;
 	}
 
+	function startNewRound() {
+		const { driver, navigator } = newActiveParticipants($participantsStore, $driverStore);
+		setDriver(driver || 'None');
+		setNavigator(navigator || 'None');
+		setRoundInProgress(true);
+		setTimerStatus(false);
+		setStartEpoch(Date.now() / 1000);
+	}
+
 	onMount(() => {
 		time = getRemainingTimeNewlyJoined() as string;
 		getTimePercentage();
@@ -130,17 +139,24 @@
 						setTimerStatus(true);
 					}
 				} else {
-					const { driver, navigator } = newActiveParticipants($participantsStore, $driverStore);
-					setDriver(driver || 'None');
-					setNavigator(navigator || 'None');
-					setRoundInProgress(true);
-					setTimerStatus(false);
-					setStartEpoch(Date.now() / 1000);
+					startNewRound();
 				}
 			}}>{$timerPausedStore ? 'Start' : 'Pause'}</button
 		>
-		<button class="btn join-item">Next</button>
-		<button class="btn join-item">Restart</button>
+		<button
+			class="btn join-item"
+			on:click={() => {
+				startNewRound();
+			}}>Next</button
+		>
+		<button
+			class="btn join-item"
+			on:click={() => {
+				setStartEpoch(Date.now() / 1000);
+				time = `${$timerIntervalMinutesStore < 10 ? '0' : ''}${$timerIntervalMinutesStore}:00`;
+				timePercentage = 100;
+			}}>Restart</button
+		>
 		<button
 			class="btn join-item"
 			on:click={() => {
