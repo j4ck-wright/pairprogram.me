@@ -1,5 +1,4 @@
 export const roomDefaults = {
-	roomTitle: 'New Room',
 	participants: [] as string[],
 	timerIntervalMinutes: 10,
 	timerEndEpoch: undefined,

@@ -1,9 +1,9 @@
 <script>
 	import { goto } from '$app/navigation';
+	import { generateRoomName } from '$lib/roomName';
 
 	function createRoom() {
-		const uuid = crypto.randomUUID();
-		goto(`/${uuid}`);
+		goto(`/${generateRoomName()}`);
 	}
 </script>
 
