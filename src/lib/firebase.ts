@@ -3,7 +3,7 @@ import { Database, getDatabase, onValue, ref, set, child, get } from 'firebase/d
 import { writable } from 'svelte/store';
 import { roomDefaults, type Iroom } from './roomDefaults';
 
-export const roomTitleStore = writable<string>(roomDefaults.roomTitle);
+export const roomTitleStore = writable<string>();
 export const participantsStore = writable<string[]>(roomDefaults.participants);
 export const timerIntervalMinutesStore = writable<number>(roomDefaults.timerIntervalMinutes);
 export const timerPausedEpochStore = writable<number>(roomDefaults.timerEndEpoch);
@@ -32,6 +32,7 @@ export async function initialiseApp(id: string) {
 		roundInProgressStore.set(data.inProgress);
 		timerIntervalMinutesStore.set(data.timerInterval);
 		timerPausedStore.set(data.timer.paused);
+		roomTitleStore.set(data.title);
 
 		data.participants && participantsStore.set(data.participants);
 		data.driver && driverStore.set(data.driver);
@@ -40,7 +41,7 @@ export async function initialiseApp(id: string) {
 		data.timer.startEpoch && timerStartEpochStore.set(data.timer.startEpoch);
 		//epochLastActiveStore.set(data.epochLastActive);
 	} else {
-		setTitle(roomDefaults.roomTitle);
+		setTitle(roomId);
 		setRoundInProgress(roomDefaults.roundInProgress);
 		setTimerIntervalMinutes(roomDefaults.timerIntervalMinutes);
 		setTimerStatus(roomDefaults.timerPaused);
