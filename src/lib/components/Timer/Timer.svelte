@@ -113,14 +113,14 @@
 <div class="container">
 	<div class="timer-container flex justify-end">
 		<div
-			class="radial-progress text-primary font-bold text-4xl"
+			class="radial-progress text-primary font-bold text-4xl flex m-auto items-center"
 			style="--value:{timePercentage}; --size:21rem; --thickness: 0.5rem;"
 		>
 			{time}
 		</div>
 	</div>
 
-	<div class="join mt-6 flex justify-end">
+	<div class="join mt-6 flex-col w-full lg:flex-row justify-center">
 		<button
 			class="btn btn-primary join-item"
 			on:click={() => {
@@ -156,6 +156,12 @@
 				time = `${$timerIntervalMinutesStore < 10 ? '0' : ''}${$timerIntervalMinutesStore}:00`;
 				timePercentage = 100;
 			}}>Restart</button
+		>
+		<button
+			class="btn join-item"
+			on:click={() => {
+				setStartEpoch(0);
+			}}>Stop</button
 		>
 		<button
 			class="btn join-item"
