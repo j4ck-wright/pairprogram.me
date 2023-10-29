@@ -12,8 +12,13 @@
 		setPausedTimestamp,
 		setTimerStatus,
 		roundInProgressStore,
-		setRoundInProgress
+		setRoundInProgress,
+		participantsStore,
+		driverStore,
+		setDriver,
+		setNavigator
 	} from '$lib/firebase';
+	import { newActiveParticipants } from '$lib/components/ActiveParticipants/newActiveParticipants';
 	import { onDestroy, onMount } from 'svelte';
 
 	let timerInterval: NodeJS.Timeout;
@@ -123,8 +128,9 @@
 						setTimerStatus(true);
 					}
 				} else {
-					// set driver and navigator
-					// TODO ^
+					const { driver, navigator } = newActiveParticipants($participantsStore, $driverStore);
+					setDriver(driver || 'None');
+					setNavigator(navigator || 'None');
 					setRoundInProgress(true);
 					setTimerStatus(false);
 					setStartEpoch(Date.now() / 1000);

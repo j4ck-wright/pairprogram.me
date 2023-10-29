@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { driverStore, navigatorStore } from '$lib/firebase';
+	import { driverStore, navigatorStore, watchDriver, watchNavigator } from '$lib/firebase';
+	watchDriver();
+	watchNavigator();
 </script>
 
 <div class="driver">

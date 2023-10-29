@@ -144,3 +144,31 @@ export function watchTimerStatus() {
 		}
 	});
 }
+
+export function setDriver(driver: string) {
+	driverStore.set(driver);
+	set(ref(db, `/rooms/${roomId}/driver`), driver);
+}
+
+export function watchDriver() {
+	const driver = ref(db, `/rooms/${roomId}/driver`);
+	onValue(driver, (snapshot) => {
+		if (snapshot) {
+			driverStore.set(snapshot.val());
+		}
+	});
+}
+
+export function setNavigator(navigator: string) {
+	navigatorStore.set(navigator);
+	set(ref(db, `/rooms/${roomId}/navigator`), navigator);
+}
+
+export function watchNavigator() {
+	const navigator = ref(db, `/rooms/${roomId}/navigator`);
+	onValue(navigator, (snapshot) => {
+		if (snapshot) {
+			navigatorStore.set(snapshot.val());
+		}
+	});
+}
