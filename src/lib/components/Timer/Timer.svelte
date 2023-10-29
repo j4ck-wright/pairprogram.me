@@ -16,8 +16,10 @@
 		participantsStore,
 		driverStore,
 		setDriver,
-		setNavigator
+		setNavigator,
+		setParticipants
 	} from '$lib/firebase';
+	import { shuffle } from '$lib/components/ActiveParticipants/shuffle';
 	import { newActiveParticipants } from '$lib/components/ActiveParticipants/newActiveParticipants';
 	import { onDestroy, onMount } from 'svelte';
 
@@ -139,6 +141,12 @@
 		>
 		<button class="btn join-item">Next</button>
 		<button class="btn join-item">Restart</button>
-		<button class="btn join-item">Shuffle</button>
+		<button
+			class="btn join-item"
+			on:click={() => {
+				const shuffledParticipants = shuffle($participantsStore);
+				setParticipants(shuffledParticipants);
+			}}>Shuffle</button
+		>
 	</div>
 </div>
