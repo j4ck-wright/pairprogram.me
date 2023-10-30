@@ -149,6 +149,7 @@
 			class="btn join-item"
 			on:click={() => {
 				setStartEpoch(0);
+				setTimerStatus(false);
 			}}>Stop</button
 		>
 		<button
