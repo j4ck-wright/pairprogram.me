@@ -22,9 +22,11 @@
 <div class="container flex items-start gap-2 w-4/5">
 	<span class="">Participants:</span>
 	<div class="badges flex flex-wrap gap-2" data-testid="participantBadges">
-		{#each $participantsStore as participant}
-			<ParticipantBadge {participant} on:removeParticipant={removeParticipant} />
-		{/each}
+		{#if $participantsStore}
+			{#each $participantsStore as participant}
+				<ParticipantBadge {participant} on:removeParticipant={removeParticipant} />
+			{/each}
+		{/if}
 		<div
 			class="bg-primary rounded-full outline outline-primary bg-transparent flex items-center"
 			data-testid="addParticipantBtn"
@@ -48,7 +50,7 @@
 					bind:value={newParticipant}
 					on:keydown={(e) => {
 						if (e.key === 'Enter' && newParticipant && newParticipant.length > 0) {
-							setParticipants([...$participantsStore, newParticipant]);
+							setParticipants([...($participantsStore || []), newParticipant]);
 							newParticipant = '';
 						}
 					}}
