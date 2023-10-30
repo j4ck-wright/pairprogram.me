@@ -1,9 +1,4 @@
-import {
-	getRemainingTime,
-	getRemainingTimeNewlyJoined,
-	formatRemainingTime,
-	formattedTimeToSeconds
-} from '../timerLogic';
+import { formatRemainingTime, formattedTimeToSeconds } from '../timerLogic';
 
 describe('timerLogic test suite', () => {
 	it('Correctly formats correct remaining time in mm:ss format', () => {
