@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { Database, getDatabase, onValue, ref, set, child, get } from 'firebase/database';
-import { writable } from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
 import { roomDefaults, type Iroom } from './roomDefaults';
 
 export const roomTitleStore = writable<string>();
@@ -48,128 +48,85 @@ export async function initialiseApp(id: string) {
 	}
 }
 
+function setNewStoreAndFirebase(store: Writable<unknown>, path: string, value: unknown) {
+	store.set(value);
+	set(ref(db, path), value);
+}
+
+function watchFirebaseAndUpdateStore(store: Writable<unknown>, path: string) {
+	onValue(ref(db, path), (snapshot) => {
+		if (snapshot.val() !== undefined) {
+			store.set(snapshot.val());
+		}
+	});
+}
+
 export function setTitle(newTitle: string) {
-	roomTitleStore.set(newTitle);
-	set(ref(db, `/rooms/${roomId}/title`), newTitle);
-}
-
-export function setParticipants(newParticipants: string[]) {
-	participantsStore.set(newParticipants);
-	set(ref(db, `/rooms/${roomId}/participants`), newParticipants);
-}
-
-export function setTimerIntervalMinutes(minutes: number) {
-	timerIntervalMinutesStore.set(minutes);
-	set(ref(db, `/rooms/${roomId}/timerInterval`), minutes);
-}
-
-export function setPausedTimestamp(epoch: number) {
-	timerPausedEpochStore.set(epoch);
-	set(ref(db, `/rooms/${roomId}/timer/pausedTimestamp`), epoch);
+	setNewStoreAndFirebase(roomTitleStore, `/rooms/${roomId}/title`, newTitle);
 }
 
 export function watchTitle() {
-	const title = ref(db, `/rooms/${roomId}/title`);
-	onValue(title, (snapshot) => {
-		if (snapshot.val()) {
-			roomTitleStore.set(snapshot.val());
-		}
-	});
+	watchFirebaseAndUpdateStore(roomTitleStore, `/rooms/${roomId}/title`);
+}
+export function setParticipants(newParticipants: string[]) {
+	setNewStoreAndFirebase(participantsStore, `/rooms/${roomId}/participants`, newParticipants);
 }
 
 export function watchParticipants() {
-	const participants = ref(db, `/rooms/${roomId}/participants`);
-	onValue(participants, (snapshot) => {
-		if (snapshot.val()) {
-			participantsStore.set(snapshot.val());
-		}
-	});
+	watchFirebaseAndUpdateStore(participantsStore, `/rooms/${roomId}/participants`);
+}
+
+export function setTimerIntervalMinutes(minutes: number) {
+	setNewStoreAndFirebase(timerIntervalMinutesStore, `/rooms/${roomId}/timerInterval`, minutes);
 }
 
 export function watchTimerIntervalMinutes() {
-	const intervalTimer = ref(db, `/rooms/${roomId}/timerInterval`);
-	onValue(intervalTimer, (snapshot) => {
-		if (snapshot.val()) {
-			timerIntervalMinutesStore.set(snapshot.val());
-		}
-	});
+	watchFirebaseAndUpdateStore(timerIntervalMinutesStore, `/rooms/${roomId}/timerInterval`);
 }
-
-export function watchStartEpoch() {
-	const startEpoch = ref(db, `/rooms/${roomId}/timer/startEpoch`);
-	onValue(startEpoch, (snapshot) => {
-		if (snapshot.val()) {
-			timerStartEpochStore.set(snapshot.val());
-		}
-	});
-}
-
-export function setStartEpoch(epoch: number) {
-	timerStartEpochStore.set(epoch);
-	set(ref(db, `/rooms/${roomId}/timer/startEpoch`), epoch);
+export function setPausedTimestamp(epoch: number) {
+	setNewStoreAndFirebase(timerPausedEpochStore, `/rooms/${roomId}/timer/pausedTimestamp`, epoch);
 }
 
 export function watchPausedTimestamp() {
-	const lastEpoch = ref(db, `/rooms/${roomId}/timer/pausedTimestamp`);
-	onValue(lastEpoch, (snapshot) => {
-		if (snapshot.val()) {
-			timerPausedEpochStore.set(snapshot.val());
-		}
-	});
+	watchFirebaseAndUpdateStore(timerPausedEpochStore, `/rooms/${roomId}/timer/pausedTimestamp`);
 }
 
-export function watchRoundInProgress() {
-	const inProgress = ref(db, `/rooms/${roomId}/inProgress`);
-	onValue(inProgress, (snapshot) => {
-		if (snapshot.val() !== undefined) {
-			roundInProgressStore.set(snapshot.val());
-		}
-	});
+export function setStartEpoch(epoch: number) {
+	setNewStoreAndFirebase(timerStartEpochStore, `/rooms/${roomId}/timer/startEpoch`, epoch);
+}
+
+export function watchStartEpoch() {
+	watchFirebaseAndUpdateStore(timerStartEpochStore, `/rooms/${roomId}/timer/startEpoch`);
 }
 
 export function setRoundInProgress(status: boolean) {
-	roundInProgressStore.set(status);
-	set(ref(db, `/rooms/${roomId}/inProgress`), status);
+	setNewStoreAndFirebase(roundInProgressStore, `/rooms/${roomId}/inProgress`, status);
+}
+
+export function watchRoundInProgress() {
+	watchFirebaseAndUpdateStore(roundInProgressStore, `/rooms/${roomId}/inProgress`);
 }
 
 export function setTimerStatus(status: boolean) {
-	timerPausedStore.set(status);
-	set(ref(db, `/rooms/${roomId}/timer/paused`), status);
+	setNewStoreAndFirebase(timerPausedEpochStore, `/rooms/${roomId}/timer/paused`, status);
 }
 
 export function watchTimerStatus() {
-	const timerStatus = ref(db, `/rooms/${roomId}/timer/paused`);
-	onValue(timerStatus, (snapshot) => {
-		if (snapshot) {
-			timerPausedStore.set(snapshot.val());
-		}
-	});
+	watchFirebaseAndUpdateStore(timerPausedEpochStore, `/rooms/${roomId}/timer/paused`);
 }
 
 export function setDriver(driver: string) {
-	driverStore.set(driver);
-	set(ref(db, `/rooms/${roomId}/driver`), driver);
+	setNewStoreAndFirebase(driverStore, `/rooms/${roomId}/driver`, driver);
 }
 
 export function watchDriver() {
-	const driver = ref(db, `/rooms/${roomId}/driver`);
-	onValue(driver, (snapshot) => {
-		if (snapshot) {
-			driverStore.set(snapshot.val());
-		}
-	});
+	watchFirebaseAndUpdateStore(driverStore, `/rooms/${roomId}/driver`);
 }
 
 export function setNavigator(navigator: string) {
-	navigatorStore.set(navigator);
-	set(ref(db, `/rooms/${roomId}/navigator`), navigator);
+	setNewStoreAndFirebase(navigatorStore, `/rooms/${roomId}/navigator`, navigator);
 }
 
 export function watchNavigator() {
-	const navigator = ref(db, `/rooms/${roomId}/navigator`);
-	onValue(navigator, (snapshot) => {
-		if (snapshot) {
-			navigatorStore.set(snapshot.val());
-		}
-	});
+	watchFirebaseAndUpdateStore(navigatorStore, `/rooms/${roomId}/navigator`);
 }
