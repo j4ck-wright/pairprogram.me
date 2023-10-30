@@ -19,7 +19,7 @@
 		setNavigator,
 		setParticipants
 	} from '$lib/firebase';
-	import { shuffle } from '$lib/components/ActiveParticipants/shuffle';
+	import { shuffle } from '$lib/components/Participants/shuffle';
 	import { newActiveParticipants } from '$lib/components/ActiveParticipants/newActiveParticipants';
 	import { onDestroy, onMount } from 'svelte';
 
