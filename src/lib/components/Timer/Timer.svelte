@@ -43,8 +43,8 @@
 	function getRemainingTime(startEpoch: number, intervalMinutes: number, paused = false) {
 		if (!paused) {
 			const currentTime = Math.floor(Date.now() / 1000);
-			const elapsedTime = currentTime - $timerStartEpochStore;
-			const remainingTime = Math.max(0, $timerIntervalMinutesStore * 60 - elapsedTime);
+			const elapsedTime = currentTime - startEpoch;
+			const remainingTime = Math.max(0, intervalMinutes * 60 - elapsedTime);
 			return formatRemainingTime(remainingTime);
 		}
 	}
