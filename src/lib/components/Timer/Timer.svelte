@@ -21,6 +21,7 @@
 	} from '$lib/firebase';
 	import { shuffle } from '$lib/components/ActiveParticipants/shuffle';
 	import { newActiveParticipants } from '$lib/components/ActiveParticipants/newActiveParticipants';
+	import { formattedTimeToSeconds, formatRemainingTime } from './timerLogic';
 	import { onDestroy, onMount } from 'svelte';
 
 	let timerInterval: NodeJS.Timeout;
@@ -35,18 +36,16 @@
 				$timerIntervalMinutesStore * 60 - ($timerPausedEpochStore - $timerStartEpochStore);
 			return formatRemainingTime(timeRemainingBeforePause);
 		} else {
-			return getRemainingTime();
+			return getRemainingTime($timerStartEpochStore, $timerIntervalMinutesStore);
 		}
 	}
 
-	function getRemainingTime() {
-		if ($roundInProgressStore && $timerPausedStore === false) {
+	function getRemainingTime(startEpoch: number, intervalMinutes: number, paused = false) {
+		if (!paused) {
 			const currentTime = Math.floor(Date.now() / 1000);
-			const elapsedTime = currentTime - $timerStartEpochStore;
-			const remainingTime = Math.max(0, $timerIntervalMinutesStore * 60 - elapsedTime);
+			const elapsedTime = currentTime - startEpoch;
+			const remainingTime = Math.max(0, intervalMinutes * 60 - elapsedTime);
 			return formatRemainingTime(remainingTime);
-		} else if ($roundInProgressStore === false) {
-			return `${$timerIntervalMinutesStore < 10 ? '0' : ''}${$timerIntervalMinutesStore}:00`;
 		}
 	}
 
@@ -55,23 +54,8 @@
 		timePercentage = (secondsRemaining / ($timerIntervalMinutesStore * 60)) * 100;
 	}
 
-	function formatRemainingTime(remainingTime: number) {
-		if (remainingTime <= 0) return '00:00';
-		const minutes = Math.floor(remainingTime / 60);
-		const seconds = Math.floor(remainingTime % 60);
-
-		return `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-	}
-
-	function formattedTimeToSeconds(formattedTime: string) {
-		const split = formattedTime.split(':');
-		const minutes = parseInt(split[0]);
-		const seconds = parseInt(split[1]);
-		return minutes * 60 + seconds;
-	}
-
 	function startNewRound() {
-		const { driver, navigator } = newActiveParticipants($participantsStore, $driverStore);
+		const { driver, navigator } = newActiveParticipants($participantsStore || [], $driverStore);
 		setDriver(driver || 'None');
 		setNavigator(navigator || 'None');
 		setRoundInProgress(true);
@@ -84,7 +68,11 @@
 		getTimePercentage();
 		timerInterval = setInterval(() => {
 			if ($roundInProgressStore) {
-				const newTime = getRemainingTime();
+				const newTime = getRemainingTime(
+					$timerStartEpochStore,
+					$timerIntervalMinutesStore,
+					$timerPausedStore
+				);
 				if (newTime) {
 					time = newTime;
 					getTimePercentage();
@@ -161,6 +149,7 @@
 			class="btn join-item"
 			on:click={() => {
 				setStartEpoch(0);
+				setTimerStatus(false);
 			}}>Stop</button
 		>
 		<button
