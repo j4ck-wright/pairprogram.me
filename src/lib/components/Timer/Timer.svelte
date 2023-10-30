@@ -71,7 +71,7 @@
 	}
 
 	function startNewRound() {
-		const { driver, navigator } = newActiveParticipants($participantsStore, $driverStore);
+		const { driver, navigator } = newActiveParticipants($participantsStore || [], $driverStore);
 		setDriver(driver || 'None');
 		setNavigator(navigator || 'None');
 		setRoundInProgress(true);
