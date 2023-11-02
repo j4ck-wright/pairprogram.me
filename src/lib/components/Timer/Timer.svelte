@@ -23,10 +23,12 @@
 	import { newActiveParticipants } from '$lib/components/ActiveParticipants/newActiveParticipants';
 	import { formattedTimeToSeconds, formatRemainingTime } from './timerLogic';
 	import { onDestroy, onMount } from 'svelte';
+	import roundEnd from '$lib/audios/roundEnd.wav';
 
 	let timerInterval: NodeJS.Timeout;
 	let time: string;
 	let timePercentage: number;
+	let timerEndNoisePlayed = true;
 
 	function getRemainingTimeNewlyJoined() {
 		if (!$roundInProgressStore)
@@ -68,6 +70,7 @@
 		getTimePercentage();
 		timerInterval = setInterval(() => {
 			if ($roundInProgressStore) {
+				timerEndNoisePlayed = false;
 				const newTime = getRemainingTime(
 					$timerStartEpochStore,
 					$timerIntervalMinutesStore,
@@ -84,6 +87,10 @@
 			} else {
 				timePercentage = 100;
 				time = `${$timerIntervalMinutesStore < 10 ? '0' : ''}${$timerIntervalMinutesStore}:00`;
+				if (!timerEndNoisePlayed) {
+					timerEndNoisePlayed = true;
+					new Audio(roundEnd).play();
+				}
 			}
 		}, 100);
 	});
