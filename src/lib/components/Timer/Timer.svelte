@@ -89,7 +89,9 @@
 				time = `${$timerIntervalMinutesStore < 10 ? '0' : ''}${$timerIntervalMinutesStore}:00`;
 				if (!timerEndNoisePlayed) {
 					timerEndNoisePlayed = true;
-					new Audio(roundEnd).play();
+					if (typeof Audio != 'undefined') {
+						new Audio(roundEnd).play();
+					}
 				}
 			}
 		}, 100);
