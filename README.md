@@ -1,5 +1,5 @@
 # pairprogram.me
 
-Work in Progress - Synopsis to include at a later date
+A SvelteKit powered app to aid pair programming in a team environment. Available at [pairprogram.me](https://pairprogram.me/)
 
-Check out the development deployment at https://pairprogram-me.fly.dev/
+![alt](./docs/preview.png)
