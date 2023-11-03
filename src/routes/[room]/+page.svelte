@@ -5,6 +5,7 @@
 	import join from '$lib/audios/join.wav';
 
 	let firebaseData = initialiseApp(data.slug);
+
 </script>
 
 <div class="container mx-auto flex flex-col items-center gap-8 lg:flex-row mt-8">
