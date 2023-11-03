@@ -2,13 +2,8 @@
 	export let data;
 	import { initialiseApp } from '$lib/firebase.js';
 	import { Participants, Title, Timer, TimerEditor, ActiveParticipants } from '$lib/components';
-	import join from '$lib/audios/join.wav';
 
 	let firebaseData = initialiseApp(data.slug);
-
-	if (typeof Audio != 'undefined') {
-		new Audio(join).play();
-	}
 </script>
 
 <div class="container mx-auto flex flex-col items-center gap-8 lg:flex-row mt-8">
