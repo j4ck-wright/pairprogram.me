@@ -6,9 +6,7 @@
 
 	let firebaseData = initialiseApp(data.slug);
 
-	const playAudio = new Audio(join);
-	playAudio.volume = 0;
-	playAudio.play();
+	new Audio(join).play();
 </script>
 
 <div class="container mx-auto flex flex-col items-center gap-8 lg:flex-row mt-8">
