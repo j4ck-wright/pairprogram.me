@@ -23,7 +23,7 @@
 		</p>
 		<div class="buttons flex gap-4 justify-center">
 			<button
-				class="button text-white bg-primary hover:bg-transparent hover:text-primary hover:outline transition-all"
+				class="button text-white bg-primary hover:bg-transparent hover:text-primary outline-primary transition-all"
 				on:click|once={createRoom}>Get Started</button
 			>
 			<button
@@ -51,7 +51,7 @@
 		</div>
 
 		<div class="join join-vertical w-full flex mx-auto my-8 px-2">
-			<div class="collapse collapse-plus join-item border border-base-300">
+			<div class="collapse collapse-plus join-item border border-primary">
 				<input type="radio" name="my-accordion-3" />
 				<div class="collapse-title text-xl font-medium">Enhanced Team Dynamics</div>
 				<div class="collapse-content">
@@ -68,7 +68,7 @@
 					</p>
 				</div>
 			</div>
-			<div class="collapse collapse-plus join-item border border-base-300">
+			<div class="collapse collapse-plus join-item border border-primary">
 				<input type="radio" name="my-accordion-3" />
 				<div class="collapse-title text-xl font-medium">Improved Code Quality</div>
 				<div class="collapse-content">
@@ -79,7 +79,7 @@
 					</p>
 				</div>
 			</div>
-			<div class="collapse collapse-plus join-item border border-base-300">
+			<div class="collapse collapse-plus join-item border border-primary">
 				<input type="radio" name="my-accordion-3" />
 				<div class="collapse-title text-xl font-medium">Knowledge Sharing</div>
 				<div class="collapse-content">
@@ -96,7 +96,7 @@
 					</p>
 				</div>
 			</div>
-			<div class="collapse collapse-plus join-item border border-base-300">
+			<div class="collapse collapse-plus join-item border border-primary">
 				<input type="radio" name="my-accordion-3" />
 				<div class="collapse-title text-xl font-medium">Faster Problem Solving</div>
 				<div class="collapse-content">
@@ -109,7 +109,7 @@
 				</div>
 			</div>
 
-			<div class="collapse collapse-plus join-item border border-base-300">
+			<div class="collapse collapse-plus join-item border border-primary">
 				<input type="radio" name="my-accordion-3" />
 				<div class="collapse-title text-xl font-medium">Onboarding and Mentoring</div>
 				<div class="collapse-content">

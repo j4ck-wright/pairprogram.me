@@ -141,7 +141,7 @@
 			}}>{$timerPausedStore ? 'Start' : 'Pause'}</button
 		>
 		<button
-			class="btn join-item"
+			class="btn btn-base100 join-item"
 			on:click={() => {
 				startNewRound();
 			}}>Next</button
